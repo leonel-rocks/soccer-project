@@ -17,6 +17,21 @@
             </b-col>
         </b-row>
         <md-table v-model="playersFiltered" md-sort="name" md-sort-order="asc" md-card @md-selected="onSelect">
+            <md-table-toolbar>
+                <h1>Peru National Football Team</h1>
+            </md-table-toolbar>
+            <md-table-toolbar slot="md-table-alternate-header" slot-scope="{ count }">
+                <div class="md-toolbar-section-start">{{ showSelectedPlayers(count) }}</div>
+                <div class="md-toolbar-section-end">
+                <md-button class="md-icon-button" v-if="selectedPlayers.length === 1">
+                    <square-edit-outline/>
+                </md-button>
+                <md-button class="md-icon-button">
+                    <delete/>
+                </md-button>
+                </div>
+            </md-table-toolbar>
+            
             <md-table-row 
                 slot="md-table-row" 
                 slot-scope="{ item }" 
@@ -26,16 +41,6 @@
                 <md-table-cell md-label="Name" md-sort-by="name" class="cell-content">{{ item.name }}</md-table-cell>
                 <md-table-cell md-label="Position" md-sort-by="position" class="cell-content">{{ item.position }}</md-table-cell>
                 <md-table-cell md-label="Goals" md-sort-by="goals" class="cell-content"> <Goals :scored="item.goals" />  </md-table-cell>
-                <md-table-cell md-label="Actions" md-sort-by="actions" class="cell-content"> 
-                    <b-row>
-                        <b-col md="2" cols="12">
-                            <square-edit-outline/>
-                        </b-col>
-                        <b-col md="10" cols="12">
-                            <delete class="remove-button"/>
-                        </b-col>
-                    </b-row>
-                </md-table-cell>
             </md-table-row>
         </md-table>
     </div>
@@ -69,6 +74,7 @@
                 searchPosition: null,
                 players: [],
                 playersFiltered: [],
+                selectedPlayers: [],
             }
         },
         mounted() {
@@ -80,7 +86,16 @@
         },
         methods: {
             onSelect (items) {
-                this.selected = items
+                this.selectedPlayers = items
+            },
+            showSelectedPlayers (count) {
+                let plural = ''
+
+                if (count > 1) {
+                plural = 's'
+                }
+
+                return `${count} player${plural} selected`
             },
             handleSearchByName () {
                 this.playersFiltered = searchBy(this.players, 'name', this.searchName)
