@@ -10,7 +10,7 @@
         props: {
             scored: { type: Number, default: 0} 
         },
-        data (){
+        data(){
             return {
                 goalsScored: this.scored,
             }
