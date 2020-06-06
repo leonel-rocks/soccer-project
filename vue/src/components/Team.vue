@@ -12,7 +12,9 @@
                     <md-input placeholder="Search by position..." v-model="searchPosition" @input="handleSearchByPosition" />
                 </md-field>
             </b-col>
-            <b-col md="4" cols="12"></b-col>
+            <b-col md="4" cols="12">
+                <md-button class="new-player-button md-raised md-primary"><account-plus/> New Player</md-button>
+            </b-col>
         </b-row>
         <md-table v-model="playersFiltered" md-sort="name" md-sort-order="asc" md-card @md-selected="onSelect">
             <md-table-row 
@@ -21,9 +23,19 @@
                 md-selectable="multiple" 
                 md-auto-select
             >
-                <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-                <md-table-cell md-label="Position" md-sort-by="position">{{ item.position }}</md-table-cell>
-                <md-table-cell md-label="Goals" md-sort-by="goals"> <Goals :scored="item.goals" />  </md-table-cell>
+                <md-table-cell md-label="Name" md-sort-by="name" class="cell-content">{{ item.name }}</md-table-cell>
+                <md-table-cell md-label="Position" md-sort-by="position" class="cell-content">{{ item.position }}</md-table-cell>
+                <md-table-cell md-label="Goals" md-sort-by="goals" class="cell-content"> <Goals :scored="item.goals" />  </md-table-cell>
+                <md-table-cell md-label="Actions" md-sort-by="actions" class="cell-content"> 
+                    <b-row>
+                        <b-col md="2" cols="12">
+                            <square-edit-outline/>
+                        </b-col>
+                        <b-col md="10" cols="12">
+                            <delete class="remove-button"/>
+                        </b-col>
+                    </b-row>
+                </md-table-cell>
             </md-table-row>
         </md-table>
     </div>
@@ -81,11 +93,25 @@
 </script>
 
 <style lang="scss" scoped>
+    .cell-content {
+        text-align: left;
+    }
+    .remove-button {
+        margin-left: 20px;
+    }
     .md-table + .md-table {
         margin-top: 16px;
     }
     .md-field {
-        max-width: 300px;
-        margin-right: 30px;
+        max-width: 350px;
+    }
+    @media (max-width: 576px) {
+        .new-player-button {
+            margin-bottom: 20px;
+            width: 95%;
+        }
+        .remove-button {
+            margin-left: 0px;
+        }
     }
 </style>
