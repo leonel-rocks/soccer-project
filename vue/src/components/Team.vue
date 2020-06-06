@@ -10,7 +10,7 @@
             >
                 <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
                 <md-table-cell md-label="Position" md-sort-by="position">{{ item.position }}</md-table-cell>
-                <md-table-cell md-label="Goals" md-sort-by="goals">{{ item.goals }}</md-table-cell>
+                <md-table-cell md-label="Goals" md-sort-by="goals">  <minus-circle/> {{ item.goals }} <plus-circle/> </md-table-cell>
             </md-table-row>
         </md-table>
     </div>

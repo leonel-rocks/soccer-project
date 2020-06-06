@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <Team/>
+    <b-container>
+      <Team/>
+    </b-container>
   </div>
 </template>
 
