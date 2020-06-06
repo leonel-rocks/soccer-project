@@ -18,6 +18,7 @@
 
 <script>
     import Goals from './Goals'
+    import { peru } from "../constants/players"
     export default {
         props: {
 
@@ -25,17 +26,16 @@
         components: {
             Goals,
         },
-        computed: {
-            players() {
-                return [
-                    {name: 'Jugador A', position: 'position A', goals: 0},
-                    {name: 'Jugador B', position: 'position B', goals: 0},
-                    {name: 'Jugador C', position: 'position C', goals: 0},
-                    {name: 'Jugador D', position: 'position D', goals: 0},
-                    {name: 'Jugador E', position: 'position E', goals: 0},
-                    {name: 'Jugador F', position: 'position F', goals: 0},
-                ]
+        data() {
+            return {
+                players: [],
             }
+        },
+        mounted() {
+            this.players = peru
+        },
+        computed: {
+            
         },
         methods: {
             onSelect (items) {
