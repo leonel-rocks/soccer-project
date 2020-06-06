@@ -1,6 +1,8 @@
 <template>
     <div>
-       <minus-circle v-on:click="decrementScore"/> {{ goalsScored }} <plus-circle v-on:click="incrementScore"/>
+        <minus-circle v-on:click="decrementScore" fillColor="#FF0000"/> 
+            {{ goalsScored }} 
+        <plus-circle v-on:click="incrementScore" fillColor="#007bff"/>
     </div>
 </template>
 <script>
@@ -15,7 +17,7 @@
         },
         methods: {
             decrementScore(event) {
-                this.goalsScored--
+                this.goalsScored ? this.goalsScored-- : 0
                 event.stopPropagation()
             },
             incrementScore() {
