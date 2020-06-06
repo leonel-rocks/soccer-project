@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>Team Component</h1>
         <b-row>
             <b-col md="4" cols="12">
                 <md-field md-clearable class="md-toolbar-section-end">
@@ -24,10 +23,10 @@
                 <div class="md-toolbar-section-start">{{ showSelectedPlayers(count) }}</div>
                 <div class="md-toolbar-section-end">
                 <md-button class="md-icon-button" v-if="selectedPlayers.length === 1">
-                    <square-edit-outline/>
+                    <Alert @clicked="onClickChild" v-bind="alertEditAttributes"/>
                 </md-button>
                 <md-button class="md-icon-button">
-                    <delete/>
+                    <Alert @clicked="onClickChild" v-bind="alertDeleteAttributes"/>
                 </md-button>
                 </div>
             </md-table-toolbar>
@@ -47,6 +46,7 @@
 </template>
 
 <script>
+    import Alert from './Alert'
     import Goals from './Goals'
     import { peru } from "../constants/players"
     
@@ -66,6 +66,7 @@
 
         },
         components: {
+            Alert,
             Goals,
         },
         data() {
@@ -82,20 +83,33 @@
             this.playersFiltered = this.players
         },
         computed: {
-            
+            alertEditAttributes () {
+                return {
+                    selectedItem: this.selectedPlayers[0],
+                    alertType: "edit",
+                    actionEvent: this.editPlayer,
+                }
+            },
+            alertDeleteAttributes () {
+                return {
+                    selectedItems: this.selectedPlayers,
+                    alertType: "delete",
+                    actionEvent: this.removePlayers,
+                }
+            },
         },
         methods: {
+            editPlayer (name, player) {
+                const currentPlayer = this.playersFiltered.find(player => player.name == name)
+                currentPlayer.name = player.name
+                currentPlayer.position = player.position
+                currentPlayer.goals = parseInt(player.goals)
+            },
             onSelect (items) {
                 this.selectedPlayers = items
             },
             showSelectedPlayers (count) {
-                let plural = ''
-
-                if (count > 1) {
-                plural = 's'
-                }
-
-                return `${count} player${plural} selected`
+                return count>1 ? `${count} players selected` : `${this.selectedPlayers[0].name} selected`
             },
             handleSearchByName () {
                 this.playersFiltered = searchBy(this.players, 'name', this.searchName)
@@ -103,6 +117,15 @@
             handleSearchByPosition () {
                 this.playersFiltered = searchBy(this.players, 'position', this.searchPosition)
             },
+            removePlayers () {
+                for(var player of this.selectedPlayers) {
+                    const playerName = player.name
+                    this.playersFiltered = this.playersFiltered.filter(item => item.name !== playerName)
+                }
+            },
+            onClickChild () {
+                console.log('child clicked')
+            }
         }
     }
 </script>
